@@ -14,9 +14,9 @@ cc_library(
 )
 
 cc_test(
-  name = "main_test",
+  name = "person_test",
   size = "small",
-  srcs = ["main_test.cpp"],
+  srcs = ["person_test.cpp"],
   deps = [":person"],
   visibility = ["//visibility:public"],
 )
