@@ -1,22 +1,21 @@
 cc_binary(
   name = "main",
   srcs = ["main.cpp"],
-  deps = [":person"],
+  deps = [":testable_code"],
   visibility = ["//visibility:public"],
 )
 
 cc_library(
-  name = "person",  
-  srcs = ["Person.cpp"],
-  hdrs = ["Person.h"],
+  name = "testable_code",
+  hdrs = ["constructor_work.h"],
   deps = ["@com_google_absl//absl/strings","@com_google_googletest//:gtest_main"],
   visibility = ["//visibility:public"],
 )
 
 cc_test(
-  name = "person_test",
+  name = "test_one",
   size = "small",
-  srcs = ["person_test.cpp"],
-  deps = [":person"],
+  srcs = ["testable_code.cpp"],
+  deps = [":testable_code"],
   visibility = ["//visibility:public"],
 )
