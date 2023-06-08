@@ -1,16 +1,10 @@
 #include <gtest/gtest.h>
 #include "constructor_work.h"
 
-TEST(CONSTRUCTOR_WORK, CONSTRUCTOR){
+TEST(AGE,AgeCalculator){
 
-  HouseWithWorkInConstructor houseWithWorkInConstructor;
+  AgeCalculator calculator;
+  auto age = calculator.calculate(2001, 12, 1);
 
-  HouseWithBetterTestability houseWithBetterTestability = HouseWithBetterTestability(Kitchen({"Grey"}), Bedroom({"White"}));
-}
-
-TEST(CONSTRUCTOR_SETUP, CONSTRUCTOR){
-  auto kitchen = Kitchen();
-  kitchen.longSetupMethod();
-
-  ConstructorWithTestableSetup setupGood(kitchen);  
+  EXPECT_EQ(age, 2014);
 }

@@ -1,6 +1,11 @@
 #include <string>
 #include "absl/strings/str_cat.h"
 
+#include <iostream>
+#include <istream>
+#include <ostream>
+#include "absl/strings/numbers.h"
+
 struct Kitchen{
   std::string color;
   void longSetupMethod(){}
@@ -48,4 +53,67 @@ struct ConstructorWithTestableSetup{
   ConstructorWithTestableSetup(Kitchen kitchenThatIsAlreadySetup) : kitchen(kitchenThatIsAlreadySetup){}
 
   const Kitchen kitchen;
+};
+
+
+struct AbstractIO{
+  virtual void output(std::string data) = 0;
+  virtual std::string input() = 0;
+};
+
+struct DateInt{
+  const int year,month,day;
+};
+
+struct DateInput{
+
+  DateInput(AbstractIO& abstractIO):abstractIO(abstractIO){}
+  
+  void requestDay(std::string message){
+    abstractIO.output(message);
+
+    //TODO: wrap static method in an interface.
+    absl::SimpleAtoi(abstractIO.input(),&day);
+  }
+
+  void requestMonth(std::string message){
+    abstractIO.output(message);
+    absl::SimpleAtoi(abstractIO.input(),&month);
+  }
+
+  void requestYear(std::string message){
+    abstractIO.output(message);
+    absl::SimpleAtoi(abstractIO.input(),&year);
+  }
+
+  DateInt getDateInt(){
+    return DateInt({year,month,day});
+  }
+
+private:
+  int month,day,year;
+  AbstractIO& abstractIO;
+
+};
+
+struct AgeCalculator{
+  // TODO: implement with abseil time library
+  int calculate(int year, int month, int day){
+    return year+month+day;
+  }
+};
+
+
+struct StdIO : public AbstractIO{
+
+  void output(std::string data) override{
+    std::cout << data;
+  }
+
+  std::string input() override{
+    std::string data;
+    std::cin >> data;
+    return data;
+  }
+
 };
