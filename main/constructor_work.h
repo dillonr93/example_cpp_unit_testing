@@ -6,56 +6,6 @@
 #include <ostream>
 #include "absl/strings/numbers.h"
 
-struct Kitchen{
-  std::string color;
-  void longSetupMethod(){}
-};
-
-struct Bedroom{
-  std::string color;
-  void longSetupMethod(){}
-};
-
-/// This class creates objects inside the constructor, which makes it locked to the created kitchen and bedroom.
-struct HouseWithWorkInConstructor{
-  
-  HouseWithWorkInConstructor(){
-    kitchen = Kitchen();
-    bedroom = Bedroom();
-  }
-
-  Kitchen kitchen;
-  Bedroom bedroom;
-};
-
-/// Passes objects into the constructor, easier to test.
-struct HouseWithBetterTestability{
-
-  HouseWithBetterTestability(Kitchen kitchen, Bedroom bedroom) : kitchen(kitchen), bedroom(bedroom){}
-
-  const Kitchen kitchen;
-  const Bedroom bedroom;
-};
-
-// Constructor that setups object preventing tests from changing them.
-struct ConstructorWithSetup{
-
-  ConstructorWithSetup(Kitchen kitchen){
-    kitchen.longSetupMethod();
-    this->kitchen = kitchen;
-  }
-
-  Kitchen kitchen;
-};
-
-// Setup of an object should not be the responsiblity of another class.
-struct ConstructorWithTestableSetup{
-  ConstructorWithTestableSetup(Kitchen kitchenThatIsAlreadySetup) : kitchen(kitchenThatIsAlreadySetup){}
-
-  const Kitchen kitchen;
-};
-
-
 struct AbstractIO{
   virtual void output(std::string data) = 0;
   virtual std::string input() = 0;
@@ -65,25 +15,47 @@ struct DateInt{
   const int year,month,day;
 };
 
+template <typename T>
+struct AbstractNumberConverter{
+  virtual T fromString(std::string string) = 0;
+  virtual std::string toString(T number) = 0;
+};
+
+struct IntConverter : public AbstractNumberConverter<int>{
+
+  int fromString(std::string string) override{
+    int number;
+
+    if(absl::SimpleAtoi(string,&number)){
+      return number;
+    }      
+
+    return 0;
+  }
+
+  std::string toString(int number) override{
+    return absl::StrCat(number);
+  }
+};
+
 struct DateInput{
 
-  DateInput(AbstractIO& abstractIO):abstractIO(abstractIO){}
+  DateInput(AbstractIO& abstractIO, AbstractNumberConverter<int>& numberConverter):abstractIO(abstractIO), numberConverter(numberConverter) {}
   
+  /// TODO: move ouput to different method. 
   void requestDay(std::string message){
     abstractIO.output(message);
-
-    //TODO: wrap static method in an interface.
-    absl::SimpleAtoi(abstractIO.input(),&day);
+    day = numberConverter.fromString(abstractIO.input());
   }
 
   void requestMonth(std::string message){
     abstractIO.output(message);
-    absl::SimpleAtoi(abstractIO.input(),&month);
+    month = numberConverter.fromString(abstractIO.input());
   }
 
   void requestYear(std::string message){
     abstractIO.output(message);
-    absl::SimpleAtoi(abstractIO.input(),&year);
+    year = numberConverter.fromString(abstractIO.input());
   }
 
   DateInt getDateInt(){
@@ -93,6 +65,7 @@ struct DateInput{
 private:
   int month,day,year;
   AbstractIO& abstractIO;
+  AbstractNumberConverter<int>& numberConverter;
 
 };
 

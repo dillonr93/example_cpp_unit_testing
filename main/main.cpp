@@ -3,20 +3,18 @@
 int main(){ 
 
   StdIO io;
-  DateInput birthdayInput(io);
+  IntConverter converter;
+  DateInput dateInput(io,converter);
 
-  birthdayInput.requestYear("Enter birth year \n");
-  birthdayInput.requestMonth("Enter birth month \n");
-  birthdayInput.requestDay("Enter birth day \n");  
+  dateInput.requestYear("Enter birth year \n");
+  dateInput.requestMonth("Enter birth month \n");
+  dateInput.requestDay("Enter birth day \n");  
 
-  auto birthday = birthdayInput.getDateInt();
+  auto birthday = dateInput.getDateInt();
 
   AgeCalculator calculator;
 
   auto age = calculator.calculate(birthday.year,birthday.month,birthday.day);  
-
-  std::cout << age;
-
 
   return 0;
 }

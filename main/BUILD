@@ -1,5 +1,5 @@
 cc_binary(
-  name = "main",
+  name = "app",
   srcs = ["main.cpp"],
   deps = [":testable_code"],
   visibility = ["//visibility:public"],
@@ -13,7 +13,7 @@ cc_library(
 )
 
 cc_test(
-  name = "test_one",
+  name = "tests",
   size = "small",
   srcs = ["testable_code.cpp"],
   deps = [":testable_code"],
