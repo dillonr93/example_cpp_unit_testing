@@ -6,6 +6,8 @@
 #include <ostream>
 #include "absl/strings/numbers.h"
 
+
+/// TODO: separate input from output
 struct AbstractIO{
   virtual void output(std::string data) = 0;
   virtual std::string input() = 0;
