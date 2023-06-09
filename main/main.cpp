@@ -2,15 +2,20 @@
 
 int main(){ 
 
-  StdIO io;
+  ConsoleIO io;
   IntConverter converter;
-  DateInput dateInput(io,converter);
+  ConsoleDateInputter dateInputter(io,converter);
 
-  dateInput.requestYear("Enter birth year \n");
-  dateInput.requestMonth("Enter birth month \n");
-  dateInput.requestDay("Enter birth day \n");  
+  io.output("Enter birth year \n");
+  dateInputter.requestYear();
 
-  auto birthday = dateInput.getDateInt();
+  io.output("Enter birth month \n");
+  dateInputter.requestMonth();
+
+  io.output("Enter birth day \n");
+  dateInputter.requestDay();
+
+  auto birthday = dateInputter.getInputtedDate();
 
   AgeCalculator calculator;
 

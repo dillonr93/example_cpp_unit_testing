@@ -38,27 +38,23 @@ struct IntConverter : public AbstractNumberConverter<int>{
   }
 };
 
-struct DateInput{
+struct ConsoleDateInputter{
 
-  DateInput(AbstractIO& abstractIO, AbstractNumberConverter<int>& numberConverter):abstractIO(abstractIO), numberConverter(numberConverter) {}
+  ConsoleDateInputter(AbstractIO& abstractIO, AbstractNumberConverter<int>& numberConverter):abstractIO(abstractIO), numberConverter(numberConverter) {}
   
-  /// TODO: move ouput to different method. 
-  void requestDay(std::string message){
-    abstractIO.output(message);
+  void requestDay(){    
     day = numberConverter.fromString(abstractIO.input());
   }
 
-  void requestMonth(std::string message){
-    abstractIO.output(message);
+  void requestMonth(){    
     month = numberConverter.fromString(abstractIO.input());
   }
 
-  void requestYear(std::string message){
-    abstractIO.output(message);
+  void requestYear(){    
     year = numberConverter.fromString(abstractIO.input());
   }
 
-  DateInt getDateInt(){
+  DateInt getInputtedDate(){
     return DateInt({year,month,day});
   }
 
@@ -77,7 +73,7 @@ struct AgeCalculator{
 };
 
 
-struct StdIO : public AbstractIO{
+struct ConsoleIO : public AbstractIO{
 
   void output(std::string data) override{
     std::cout << data;
