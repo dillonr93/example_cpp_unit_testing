@@ -2,17 +2,19 @@
 
 int main(){ 
 
-  ConsoleIO io;
+  ConsoleInput consoleInput;
+  ConsoleOutput consoleOutput;
+  
   IntConverter converter;
-  ConsoleDateInputter dateInputter(io,converter);
+  ConsoleDateInputter dateInputter(consoleInput,converter);
 
-  io.output("Enter birth year \n");
+  consoleOutput.output("Enter birth year \n");
   dateInputter.requestYear();
 
-  io.output("Enter birth month \n");
+  consoleOutput.output("Enter birth month \n");
   dateInputter.requestMonth();
 
-  io.output("Enter birth day \n");
+  consoleOutput.output("Enter birth day \n");
   dateInputter.requestDay();
 
   auto birthday = dateInputter.getInputtedDate();

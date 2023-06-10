@@ -7,7 +7,8 @@ cc_binary(
 
 cc_library(
   name = "testable_code",
-  hdrs = ["constructor_work.h"],
+  hdrs = ["constructor_work.h","abstractio.h"],
+  srcs = ["abstractio.cpp"],
   deps = ["@com_google_absl//absl/strings","@com_google_googletest//:gtest_main"],
   visibility = ["//visibility:public"],
 )

@@ -1,6 +1,9 @@
 #include <gtest/gtest.h>
 #include "constructor_work.h"
 
+TEST(ConsoleInput,CONSOLE){  
+}
+
 TEST(AGE,AgeCalculator){
 
   AgeCalculator calculator;

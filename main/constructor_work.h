@@ -1,17 +1,6 @@
-#include <string>
+#include "abstractio.h"
 #include "absl/strings/str_cat.h"
-
-#include <iostream>
-#include <istream>
-#include <ostream>
 #include "absl/strings/numbers.h"
-
-
-/// TODO: separate input from output
-struct AbstractIO{
-  virtual void output(std::string data) = 0;
-  virtual std::string input() = 0;
-};
 
 struct DateInt{
   const int year,month,day;
@@ -42,18 +31,18 @@ struct IntConverter : public AbstractNumberConverter<int>{
 
 struct ConsoleDateInputter{
 
-  ConsoleDateInputter(AbstractIO& abstractIO, AbstractNumberConverter<int>& numberConverter):abstractIO(abstractIO), numberConverter(numberConverter) {}
+  ConsoleDateInputter(AbstractInput& abstractInput, AbstractNumberConverter<int>& numberConverter):abstractInput(abstractInput), numberConverter(numberConverter) {}
   
   void requestDay(){    
-    day = numberConverter.fromString(abstractIO.input());
+    day = numberConverter.fromString(abstractInput.input());
   }
 
   void requestMonth(){    
-    month = numberConverter.fromString(abstractIO.input());
+    month = numberConverter.fromString(abstractInput.input());
   }
 
   void requestYear(){    
-    year = numberConverter.fromString(abstractIO.input());
+    year = numberConverter.fromString(abstractInput.input());
   }
 
   DateInt getInputtedDate(){
@@ -62,7 +51,7 @@ struct ConsoleDateInputter{
 
 private:
   int month,day,year;
-  AbstractIO& abstractIO;
+  AbstractInput& abstractInput;
   AbstractNumberConverter<int>& numberConverter;
 
 };
@@ -72,19 +61,4 @@ struct AgeCalculator{
   int calculate(int year, int month, int day){
     return year+month+day;
   }
-};
-
-
-struct ConsoleIO : public AbstractIO{
-
-  void output(std::string data) override{
-    std::cout << data;
-  }
-
-  std::string input() override{
-    std::string data;
-    std::cin >> data;
-    return data;
-  }
-
 };
