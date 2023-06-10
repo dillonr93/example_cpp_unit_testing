@@ -1,32 +1,8 @@
 #include "abstractio.h"
-#include "absl/strings/str_cat.h"
-#include "absl/strings/numbers.h"
+#include "abstractnumberconverter.h"
 
 struct DateInt{
   const int year,month,day;
-};
-
-template <typename T>
-struct AbstractNumberConverter{
-  virtual T fromString(std::string string) = 0;
-  virtual std::string toString(T number) = 0;
-};
-
-struct IntConverter : public AbstractNumberConverter<int>{
-
-  int fromString(std::string string) override{
-    int number;
-
-    if(absl::SimpleAtoi(string,&number)){
-      return number;
-    }      
-
-    return 0;
-  }
-
-  std::string toString(int number) override{
-    return absl::StrCat(number);
-  }
 };
 
 struct ConsoleDateInputter{
