@@ -9,7 +9,11 @@ cc_library(
   name = "testable_code",
   hdrs = ["consoledateinputter.h","abstractio.h","abstractnumberconverter.h"],
   srcs = ["abstractio.cpp","abstractnumberconverter.cpp"],
-  deps = ["@com_google_absl//absl/strings","@com_google_googletest//:gtest_main"],
+  deps = [
+    "@com_google_absl//absl/strings",
+    "@com_google_absl//absl/time",
+    "@com_google_googletest//:gtest_main"
+  ],
   visibility = ["//visibility:public"],
 )
 
