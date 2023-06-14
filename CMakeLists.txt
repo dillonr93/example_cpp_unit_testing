@@ -18,12 +18,15 @@ add_subdirectory(abseil-cpp)
 enable_testing()
 
 add_executable(hello_test hello_test.cc)
-target_link_libraries(hello_test GTest::gtest_main absl::base absl::strings)
+target_link_libraries(hello_test GTest::gtest_main absl::base absl::strings absl::time)
 
 add_executable(main main.cpp)
 target_link_libraries(main absl::base absl::strings absl::time)
 
+add_executable(absl_test absl_test.cpp)
+target_link_libraries(absl_test GTest::gtest_main absl::base absl::strings absl::time)
 
 
 include(GoogleTest)
 gtest_discover_tests(hello_test)
+add_test(absl_test absl_test)
